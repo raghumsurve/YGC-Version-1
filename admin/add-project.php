@@ -1,0 +1,1 @@
+<?php require_once __DIR__ . '/../includes/admin.php'; admin_required(); $project=['project_name'=>'','location'=>'','description'=>'','status'=>'Ongoing','price'=>'','google_map'=>'']; $editing=false; require __DIR__ . '/project-form.php';

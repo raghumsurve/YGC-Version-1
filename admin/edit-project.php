@@ -1,0 +1,1 @@
+<?php require_once __DIR__ . '/../includes/admin.php'; admin_required(); $id=filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);$s=db()->prepare('SELECT * FROM projects WHERE id=?');$s->execute([$id]);$project=$s->fetch();if(!$project)exit('Project not found.');$editing=true; require __DIR__ . '/project-form.php';

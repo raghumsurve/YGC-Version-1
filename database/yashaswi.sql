@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS yashaswi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE yashaswi;
+
+CREATE TABLE admin (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, name VARCHAR(100) NOT NULL, email VARCHAR(150) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE projects (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, project_name VARCHAR(150) NOT NULL, location VARCHAR(200) NOT NULL, description TEXT NOT NULL, status ENUM('Upcoming','Ongoing','Completed') NOT NULL DEFAULT 'Ongoing', price VARCHAR(100) NULL, google_map TEXT NULL, thumbnail VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
+CREATE TABLE gallery (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, project_id INT UNSIGNED NULL, image VARCHAR(255) NOT NULL, uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_gallery_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL) ENGINE=InnoDB;
+CREATE TABLE enquiries (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, phone VARCHAR(25) NOT NULL, email VARCHAR(150) NOT NULL, message TEXT NULL, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, status ENUM('New','Contacted','Closed') NOT NULL DEFAULT 'New', INDEX(date), INDEX(status)) ENGINE=InnoDB;
+CREATE TABLE testimonials (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, customer_name VARCHAR(100) NOT NULL, review TEXT NOT NULL, rating TINYINT UNSIGNED NOT NULL, approved TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CHECK (rating BETWEEN 1 AND 5)) ENGINE=InnoDB;
+
+-- Initial login: admin / password (change it immediately in Admin > Settings)
+INSERT INTO admin (username,password,name,email) VALUES ('admin','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.','Yashaswi Administrator','admin@example.com');
+INSERT INTO projects (project_name,location,description,status,price,thumbnail) VALUES ("Papu's Residency",'Davangere, Karnataka','A thoughtfully designed residential project offering spacious homes, modern architecture, superior construction quality and premium amenities.','Ongoing','Contact for price','assets/projects/papus-residency-1.jpg');
+INSERT INTO testimonials (customer_name,review,rating,approved) VALUES ('Ramesh Kumar','Excellent construction quality and professional service throughout the project. Highly recommended.',5,1),('Priya S.','Transparent documentation and timely updates. We are extremely satisfied with our investment.',5,1),('Naveen H.','The team was supportive from booking until possession. Quality exceeded expectations.',5,1);
